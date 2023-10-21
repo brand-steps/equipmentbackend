@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ["https://www.equipmentsuppliers.co.uk", "*"],
+    origin: ["http://localhost:3000", "*"],
     credentials: true,
   })
 );
@@ -1194,6 +1194,48 @@ app.get("/Utensils", async (req, res) => {
       message: "Server Error",
     });
   }
+});
+
+app.get("/subcategory/:subcat", async (req, res) => {
+  const subcat = req.params.subcat;
+  try {
+    let query = requestModel.find({subcategory : subcat});
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 12;
+    const skip = (page - 1) * pageSize;
+    const total = await requestModel.countDocuments();
+
+    const pages = Math.ceil(total / pageSize);
+
+    query = query.skip(skip).limit(pageSize);
+
+    if (page > pages) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No page found",
+      });
+    }
+
+    const result = await query;
+    console.log("res",result);
+    res.status(200).json({
+      status: "success",
+      count: result.length,
+      page,
+      pages: pages,
+      data: result,
+    });
+  }
+ 
+  catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: "Server Error",
+    });
+  }
+  console.log("subcat", subcat);
 });
 
 
