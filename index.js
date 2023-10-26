@@ -452,7 +452,7 @@ app.get("/api/v1/profile", (req, res) => {
     try {
       const user = await User.findOne(
         { _id: _id },
-        "email password username -_id"
+        "email password firstname -_id"
       ).exec();
       if (!user) {
         res.status(404).send({});
@@ -646,6 +646,166 @@ app.post("/productrequest", upload.any(), (req, res) => {
     console.log("error: ", error);
   }
 });
+
+app.post("/productrequestnew", upload.any(), (req, res) => {
+  try {
+    const body = req.body;
+
+    if (
+      // validation
+      !body.email ||
+      !body.name ||
+      !body.price ||
+      !body.subcategory ||
+      !body.description
+    ) {
+      res.status(400).send({
+        message: "required parameters missing",
+      });
+      return;
+    }
+
+    console.log("req.body: ", req.body);
+    console.log("req.files: ", req.files);
+
+    console.log("uploaded file name: ", req.files[0].originalname);
+    console.log("file type: ", req.files[0].mimetype);
+    console.log("file name in server folders: ", req.files[0].filename);
+    console.log("file path in server folders: ", req.files[0].path);
+
+    bucket.upload(
+      req.files[0].path,
+      {
+        destination: `tweetPictures/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
+      },
+      function (err, file, apiResponse) {
+        if (!err) {
+          file
+            .getSignedUrl({
+              action: "read",
+              expires: "03-09-2999",
+            })
+            .then((urlData, err) => {
+              if (!err) {
+                console.log("public downloadable url: ", urlData[0]); // this is public downloadable url
+
+                try {
+                  fs.unlinkSync(req.files[0].path);
+                  //file removed
+                } catch (err) {
+                  console.error(err);
+                }
+
+                let addPRoduct = new requestModel({
+                  email: body.email,
+                  name: body.name,
+                  price: body.price,
+                  category: body.value,
+                  subcategory : body.subcategory,
+                  imageUrl: urlData[0],
+                  description: body.description,
+                  
+                  color: body.color,
+                  material: body.material,
+                  capacity : body.capacity,
+                  shelves: body.shelves,
+                  lid: body.lid,
+                  lightening: body.lightening,
+                  noiselevel : body.level,
+                  door: body.door,
+                  Width: body.Width,
+                  depth: body.depth,
+                  height : body.height,
+                  weight: body.weight,
+                  powerconsumption: body.consumption,
+                  powersupply : body.supply,
+                  power: body.power,
+                  temperature: body.temperature,
+                  refrigerant: body.refrigerant,
+                  cooling : body.cooling,
+                  warranty: body.warranty,
+
+                  //dishwashing
+                  castors: body.castors,
+                  tray: body.tray,
+                  pressure : body.pressure,
+                  production: body.production,
+                  innerheight: body.innerheight,
+                  basket: body.basket,
+                  programs : body.programs,
+                  volume: body.volume,
+                  watercycles: body.cycles,
+                  waterpump : body.pump,
+                  rinsepower: body.rinsepower,
+                  dispenser: body.dispenser,
+                  rinsefunc: body.rinsefunc,
+                  volumerinse : body.volumerinse,
+
+                  //appliance
+                  version: body.version,
+                  tap: body.tap,
+                  output : body.output,
+
+                  //stanless steel
+                  productfeet: body.feet,
+                  bottomshelf: body.bottomshelf,
+                  bowlpos : body.bowlpos,
+                  sinkbowl: body.sinkbowl,
+                  upstand: body.upstand,
+                  assembled : body.assembly,
+
+                  //cooking
+                  timer: body.timer,
+                  controls : body.controls,
+
+                  // food prep
+                  rpm: body.rpm,
+                  speeds : body.speeds,
+                  included: body.included,
+                  weldingbar : body.weldingbar,
+
+                  //beverage equipment
+                  bin : body.bin,
+                  waterconnection: body.waterconnection,
+                  type : body.type,
+
+                  //pizza and grill
+                  lock: body.lock,
+                  worksurface : body.worksurface,
+                  gasconsumption: body.gasconsumption,
+                  defrost : body.defrost,
+
+                      //ovens
+                      steam: body.steam,
+
+                      //utensils
+                      pieces : body.pieces,
+                      diameter: body.diameter,
+                      length : body.length,
+
+                });
+
+                addPRoduct.save().then((res) => {
+                  // res.send(res)
+
+                  console.log(res, "ProDUCT ADD");
+                });
+
+                
+              }
+            });
+        } else {
+          console.log("err: ", err);
+          res.status(500).send();
+        }
+      }
+    );
+  } catch (error) {
+    console.log("error: ", error);
+  }
+});
+
+
 
 app.get("/productrequestall", async (req, res) => {
   try {

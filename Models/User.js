@@ -41,6 +41,86 @@ const requestSchema = new mongoose.Schema({
     price: { type: String , required: true },
     category: { type: String ,  required: true },
     subcategory: { type: String ,  required: true },
+
+
+    color: { type: String },
+    material: { type: String },
+    capacity: { type: String },
+    shelves: { type: String },
+    lid: { type: String },
+    lightening: { type: String },
+    noiselevel: { type: String },
+    door: { type: String },
+    Width: { type: String },
+    depth: { type: String },
+    height: { type: String },
+    weight: { type: String },
+    powerconsumption: { type: String },
+    powersupply: { type: String },
+    power: { type: String },
+    temperature: { type: String },
+    refrigerant: { type: String },
+    cooling: { type: String },
+    warranty: { type: String },
+
+    //dishwashing
+    castors: { type: String },
+    tray: { type: String },
+    pressure: { type: String },
+    production: { type: String },
+    innerheight: { type: String },
+    basket: { type: String },
+    programs: { type: String },
+    volume: { type: String },
+    watercycles: { type: String },
+    waterpump: { type: String },
+    rinsepower: { type: String },
+    dispenser: { type: String },
+    rinsefunc: { type: String },
+    volumerinse: { type: String },
+
+    //appliance
+    version: { type: String },
+    tap: { type: String },
+    output: { type: String },
+
+    //stanless steel
+    productfeet: { type: String },
+    bottomshelf: { type: String },
+    bowlpos: { type: String },
+    sinkbowl: { type: String },
+    upstand: { type: String },
+    assembled: { type: String },
+
+    //cooking
+    timer: { type: String },
+    controls: { type: String },
+    
+    //food prep
+    rpm: { type: String },
+    speeds: { type: String },
+    included: { type: String },
+    weldingbar: { type: String },
+
+    //beverage equipment
+    bin: { type: String },
+    waterconnection: { type: String },
+    type: { type: String },
+
+    //pizza and grill
+    lock: { type: String },
+    worksurface: { type: String },
+    gasconsumption: { type: String },
+    defrost: { type: String },
+
+    //ovens
+    steam: { type: String },
+
+    //utensils
+    pieces: { type: String },
+    diameter: { type: String },
+    length: { type: String },
+
     description : { type: String, required: true },
     imageUrl: { type: String  ,  required: true },
     isApproved: { type: Boolean, default: false },
