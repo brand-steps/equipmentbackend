@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-
-const oldmongooseUrl = "mongodb+srv://samrajafri018:12345@cluster0.b8ydbpc.mongodb.net/"
-const mongodbURI = process.env.mongodbURI || "mongodb+srv://shaikhahsanali:brandsteps123@cluster0.0ikweun.mongodb.net/?retryWrites=true&w=majority";
+const newurl = "mongodb+srv://shaikhahsanali:brandsteps123@cluster0.0ikweun.mongodb.net/?retryWrites=true&w=majority"
+const oldmongooseUrl = ""
+const mongodbURI = process.env.mongodbURI || "mongodb+srv://samrajafri018:12345@cluster0.b8ydbpc.mongodb.net/";
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 const userSchema = new mongoose.Schema({
