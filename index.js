@@ -47,6 +47,7 @@ app.get("/api/search", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 app.get("/api/v1/paginatpost", async (req, res) => {
   try {
     let query = requestModel.find({isApproved : true});
