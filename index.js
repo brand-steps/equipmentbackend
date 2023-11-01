@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ["https://equipmentsuppliersfrontend.vercel.app", "*"],
+    origin: ["https://www.equipmentsuppliers.co.uk", "*"],
     credentials: true,
   })
 );
