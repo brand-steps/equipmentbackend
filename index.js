@@ -19,8 +19,8 @@ import { requestModel } from "./Models/User.js";
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(
-  cors({ 
-    origin: ["https://equipmentsuppliers-frontend.vercel.app", "*"],
+  cors({
+    origin: ["https://equipmentsuppliersfrontend.vercel.app", "*"],
     credentials: true,
   })
 );
