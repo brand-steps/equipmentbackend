@@ -18,18 +18,14 @@ import { requestModel } from "./Models/User.js";
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-/*
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "*"],
-    credentials: true,
-  })
-);*/
-app.use(
-  cors({
-    origin: "https://www.equipmentsuppliers.co.uk",
+    origin: ["https://www.equipmentsuppliers.co.uk", "*"],
+    //credentials: true,
   })
 );
+
 const storage = multer.diskStorage({
   destination: "/tmp",
   filename: function (req, file, cb) {
