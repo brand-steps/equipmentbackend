@@ -19,19 +19,15 @@ import { requestModel } from "./Models/User.js";
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-/*app.use(
-  cors({
-    origin: ["https://www.equipmentsuppliers.co.uk", "*"],
-    //credentials: true,
-  })
-); */
-
 app.use(
   cors({
-    origin:'https://www.equipmentsuppliers.co.uk', 
-    credentials:true, 
-    optionSuccessStatus:200,
+    origin: ["https://www.equipmentsuppliers.co.uk", "*"],
+    credentials: true,
   })
+); 
+
+app.use(
+  cors()
 );
 const storage = multer.diskStorage({
   destination: "/tmp",
