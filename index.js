@@ -30,6 +30,7 @@ app.use(
   cors({
     origin:'https://www.equipmentsuppliers.co.uk', 
     credentials:true, 
+    optionSuccessStatus:200,
   })
 );
 const storage = multer.diskStorage({
