@@ -27,7 +27,10 @@ app.use(express.urlencoded({ extended: false }));
 ); */
 
 app.use(
-  cors()
+  cors({
+    origin:'https://www.equipmentsuppliers.co.uk', 
+    credentials:true, 
+  })
 );
 const storage = multer.diskStorage({
   destination: "/tmp",
