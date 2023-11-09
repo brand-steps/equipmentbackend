@@ -22,6 +22,20 @@ const userSchema = new mongoose.Schema({
   createdOn: { type: Date, default: Date.now },
 });
 
+const customerSchema = new mongoose.Schema({
+    firstname: String,
+    lastname: String,
+    email: String,
+    phone: String,
+    postal: String,
+    address: String,
+    country: String,
+    city: String,
+    state: String,
+    password: String,
+    createdOn: { type: Date, default: Date.now },
+  });
+  export const customerModel = mongoose.model('customers', customerSchema);
 
 
 const productSchema = new mongoose.Schema({
