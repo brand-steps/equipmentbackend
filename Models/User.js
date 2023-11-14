@@ -49,6 +49,22 @@ const productSchema = new mongoose.Schema({
 });
 export const tweetModel = mongoose.model('ProductsAll', productSchema);
   
+const orderSchema = new mongoose.Schema({
+    email: String,
+    username: String,
+    phone: String,
+    cardnumber: String,
+    cardexp: String,
+    cardcvc: String,
+    address: String,
+    state: String,
+    zip: String,
+    shipping: String,
+    total: String,
+    createdOn: { type: Date, default: Date.now },
+  });
+  export const orderModel = mongoose.model('orders', orderSchema);
+
 const requestSchema = new mongoose.Schema({
     email : { type: String },
     name : { type: String },

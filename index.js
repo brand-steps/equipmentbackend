@@ -16,6 +16,7 @@ import path from "path";
 import { tweetModel } from "./Models/User.js";
 import { requestModel } from "./Models/User.js";
 import { customerModel } from "./Models/User.js";
+import { orderModel } from "./Models/User.js";
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -631,7 +632,7 @@ app.get("/api/v1/customerprofile", (req, res) => {
     try {
       const user = await customerModel.findOne(
         { _id: _id },
-        "email password firstname lastname phone -_id"
+        "email password firstname lastname phone _id"
       ).exec();
       if (!user) {
         res.status(404).send({});
@@ -1578,6 +1579,68 @@ app.get("/subcategory/:subcat", async (req, res) => {
   console.log("subcat", subcat);
 });
 
+//orders
+
+app.post("/addorders", async (req, res) => {
+  try {
+    const {email,username, phone,  cardnumber , cardexp, cardcvc, address, state, zip, shipping, total } = req.body;
+
+    // Create a new user
+    const newOrder = new orderModel({
+      email,
+      username,
+      cardnumber,
+      phone,
+      cardexp,
+      cardcvc,
+      address,
+      state,
+      zip,
+      shipping,
+      total
+    });
+
+    // Save the user to the database
+    await newOrder.save();
+
+    res.status(201).json({ message: "Order entered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+app.get("/orderdisplay/:email", async (req, res) => {
+  const Email = req.params.email;
+  try {
+    const result = await orderModel.find({email : Email}).exec(); // Using .exec() to execute the query
+    // console.log(result);
+    res.send({
+      message: "Got all orders successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+console.log("email",Email);
+});
+
+app.get("/displayorder", async (req, res) => {
+  try {
+    const result = await orderModel.find().exec(); // Using .exec() to execute the query
+    res.send({
+      message: "Got all orders successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+});
 
 // Start the server
 app.listen(port, () => {
