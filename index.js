@@ -1020,6 +1020,36 @@ app.get("/productrequestalltrue", async (req, res) => {
   }
 });
 
+app.get("/bestsellerdisplay", async (req, res) => {
+  try {
+    const result = await requestModel.find().exec(); // Using .exec() to execute the query
+    res.send({
+      message: "Got all products successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+});
+
+app.get("/bestsellerdisplaytrue", async (req, res) => {
+  try {
+    const result = await requestModel.find({bestSeller : true}).exec(); // Using .exec() to execute the query
+    res.send({
+      message: "Got all products successfully",
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+});
+
 app.delete("/productreq/:id", async (req, res) => {
   const id = req.params.id;
 
@@ -1071,6 +1101,62 @@ app.get("/productreqedit/:id", async (req, res) => {
 
 });
 
+app.get("/bestsellerapprove/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const FindData = await requestModel.findById({ _id: id });
+
+    if (FindData) {
+     // FindData.isApproved = true;
+   await FindData.updateOne({ bestSeller: true });
+      res.send({
+        message: "Product has been set as best seller successfully",
+        data : FindData,
+      });
+    } else {
+      res.status(404).send({
+        message: "No Product found with this id: " + id,
+      });
+    }
+    console.log("data",FindData);
+    console.log("id",id);
+  } catch (err) {
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+
+});
+
+
+app.get("/bestsellerdisapprove/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const FindData = await requestModel.findById({ _id: id });
+
+    if (FindData) {
+     // FindData.isApproved = true;
+   await FindData.updateOne({ bestSeller: false });
+      res.send({
+        message: "Product has been removed as best seller successfully",
+        data : FindData,
+      });
+    } else {
+      res.status(404).send({
+        message: "No Product found with this id: " + id,
+      });
+    }
+    console.log("data",FindData);
+    console.log("id",id);
+  } catch (err) {
+    res.status(500).send({
+      message: "Server error",
+    });
+  }
+
+});
 
 //edit prodcut checking
 app.get("/singleproduct/:id", async (req,res) => {     //chane name into id

@@ -153,6 +153,7 @@ const requestSchema = new mongoose.Schema({
 
     description : { type: String, required: true },
     imageUrl: { type: String  ,  required: true },
+    bestSeller: { type: Boolean, default: false },
     isApproved: { type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
 });
