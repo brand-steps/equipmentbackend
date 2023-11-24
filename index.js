@@ -682,7 +682,36 @@ app.post("/logout", (req, res) => {
   }
 });
 
-
+app.get("/api/v1/logoutuser", (req, res) => {
+  const _id = req.body.token._id;
+  const getData = async () => {
+    try {
+      const user = await customerModel.findOne(
+        { _id: _id },
+        "email password firstname lastname phone _id"
+      ).exec();
+      if (!user) {
+        res.status(404).send({});
+        return;
+      } else {
+        res.set({
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+          Pragma: "no-cache",
+          ExpireIn: new Date(Date.now()),
+          "Surrogate-Control": "no-store",
+        });
+        res.status(200).send(user);
+      }
+    } catch (error) {
+      console.log("error: ", error);
+      res.status(500).send({
+        message: "something went wrong on server",
+      });
+    }
+  };
+  getData();
+});
 app.put("/EditProduct/:id", async (req,res) => {
 
     const productId = req.params.id;
@@ -1726,6 +1755,22 @@ app.get("/displayorder", async (req, res) => {
       message: "Server error",
     });
   }
+});
+
+app.use(cookieParser());
+
+// Logout API
+app.post('/api/logout', (req, res) => {
+  // Clear cookies related to authentication or session
+  
+  res.set({
+
+    Pragma: "no-cache",
+    expires: Date.now(),
+    "Surrogate-Control": "no-store",
+  });
+  
+  res.json({ message: 'Logout successful' });
 });
 
 // Start the server
