@@ -17,6 +17,8 @@ import { tweetModel } from "./Models/User.js";
 import { requestModel } from "./Models/User.js";
 import { customerModel } from "./Models/User.js";
 import { orderModel } from "./Models/User.js";
+import Stripe from "stripe";
+const stripe = Stripe('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');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
@@ -1773,6 +1775,35 @@ app.post('/api/logout', (req, res) => {
   res.json({ message: 'Logout successful' });
 });
 
+app.post('/create-checkout-sessions', async (req, res) => {
+  const responce = req.body.innerArray;
+  const price = req.body.price;
+  const packages = req.body.packages;
+
+    const line_items = responce.map(item => {
+      console.log(item[0].key)
+      return {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item[0].key,
+          },
+          unit_amount: (item[5])*100,
+        },
+        quantity: item[4],
+
+      }
+    })
+  //console.log("pk",responce)
+  const session = await stripe.checkout.sessions.create({
+line_items,
+    mode: 'payment',
+      success_url:"https://www.equipmentsuppliers.co.uk/",
+      cancel_url:"https://www.equipmentsuppliers.co.uk/",
+  });
+
+  res.send({url: session.url});
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
