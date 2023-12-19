@@ -1784,7 +1784,7 @@ app.post('/create-checkout-sessions', async (req, res) => {
       console.log(item[0].key)
       return {
         price_data: {
-          currency: 'usd',
+          currency: 'gbp',
           product_data: {
             name: item[0].key,
           },
