@@ -18,7 +18,7 @@ import { requestModel } from "./Models/User.js";
 import { customerModel } from "./Models/User.js";
 import { orderModel } from "./Models/User.js";
 import Stripe from "stripe";
-const stripe = Stripe('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');
+const stripe = Stripe('');
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
